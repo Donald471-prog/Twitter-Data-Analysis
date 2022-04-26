@@ -1,3 +1,4 @@
+import pandas as pd
 class Clean_Tweets:
     """
     The PEP8 Standard AMAZING!!!
@@ -21,16 +22,15 @@ class Clean_Tweets:
         drop duplicate rows
         """
         
-        ---
+        df.drop_duplicates()
         
         return df
     def convert_to_datetime(self, df:pd.DataFrame)->pd.DataFrame:
         """
         convert column to datetime
         """
-        ----
         
-        ----
+        pd.to_datetime(df)
         
         df = df[df['created_at'] >= '2020-12-31' ]
         
@@ -41,10 +41,10 @@ class Clean_Tweets:
         convert columns like polarity, subjectivity, retweet_count
         favorite_count etc to numbers
         """
-        df['polarity'] = pd.----
-        
-        ----
-        ----
+        df['polarity'] = pd.to_numeric(polarity)
+
+        df['subjectivity'] = pd.to_numeric(subjectivity)
+        df['retweet_count'] = pd.to_numeric(retweet_count)
         
         return df
     
