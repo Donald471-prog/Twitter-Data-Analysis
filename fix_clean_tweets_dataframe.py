@@ -21,38 +21,42 @@ class Clean_Tweets:
         """
         drop duplicate rows
         """
-        
-        df.drop_duplicates()
-        
+
+        self.df = self.df.drop_duplicates().drop_duplicates(subset='original_text')
+
         return df
-    def convert_to_datetime(self, df:pd.DataFrame)->pd.DataFrame:
+
+    def convert_to_datetime(self, df: pd.DataFrame) -> pd.DataFrame:
         """
         convert column to datetime
         """
-        
-        pd.to_datetime(df)
-        
-        df = df[df['created_at'] >= '2020-12-31' ]
-        
-        return df
-    
-    def convert_to_numbers(self, df:pd.DataFrame)->pd.DataFrame:
+        self.df['created_at'] = pd.to_datetime(self.df['created_at'], errors='coerce')
+
+        self.df = self.df[self.df['created_at'] >= '2020-12-31']
+
+        return self.df
+
+    def convert_to_numbers(self) -> pd.DataFrame:
         """
         convert columns like polarity, subjectivity, retweet_count
         favorite_count etc to numbers
         """
-        df['polarity'] = pd.to_numeric(polarity)
+        self.df['polarity'] = pd.to_numeric(self.df['polarity'], errors='coerce')
+        self.df['retweet_count'] = pd.to_numeric(self.df['retweet_count'], errors='coerce')
+        self.df['favorite_count'] = pd.to_numeric(self.df['favorite_count'], errors='coerce')
 
-        df['subjectivity'] = pd.to_numeric(subjectivity)
-        df['retweet_count'] = pd.to_numeric(retweet_count)
-        
-        return df
-    
-    def remove_non_english_tweets(self, df:pd.DataFrame)->pd.DataFrame:
+        return self.df
+
+    def remove_non_english_tweets(self) -> pd.DataFrame:
         """
         remove non english tweets from lang
         """
-        
-        df = ----
-        
-        return df
+
+        self.df = self.df.query("lang == 'en' ")
+
+        return self.df
+
+
+if __name__ == "__main__":
+    tweet_df = pd.read_csv("../data/covid19.csv")
+    cleaner = CleanTweets(tweet_df)
